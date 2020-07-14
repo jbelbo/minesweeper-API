@@ -88,4 +88,10 @@ public class Cell {
     public void setBoard(Board board) {
         this.board = board;
     }
+
+    public Boolean isAdjacent(Cell cell) {
+        return cell != this &&
+                Math.abs(this.position.getX() - cell.position.getX()) <= 1 &&
+                Math.abs(this.position.getY() - cell.position.getY()) <= 1;
+    }
 }
