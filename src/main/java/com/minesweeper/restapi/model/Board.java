@@ -1,9 +1,14 @@
 package com.minesweeper.restapi.model;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.*;
 
+@Entity
 public class Board {
-
+    @Id
     private UUID id;
 
     private int numberOfRows;
@@ -18,6 +23,7 @@ public class Board {
 
     private Date finishedAt;
 
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Cell> cells = new ArrayList<>();
 
     public Board() {}
@@ -82,7 +88,9 @@ public class Board {
     private void createCells() {
         for (int column = 0; column < this.numberOfColumns; column++) {
             for (int row = 0; row < this.numberOfRows; row++) {
-                this.cells.add(new Cell(column, row, false));
+                var cell = new Cell(column, row, false);
+                cell.setBoard(this);
+                this.cells.add(cell);
             }
         }
     }

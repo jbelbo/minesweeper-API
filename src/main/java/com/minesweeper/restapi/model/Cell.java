@@ -1,10 +1,14 @@
 package com.minesweeper.restapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.awt.*;
 import java.util.UUID;
 
+@Entity
 public class Cell {
-
+    @Id
     private UUID id;
 
     private Point position = new Point();
@@ -19,6 +23,8 @@ public class Cell {
 
     private Boolean hasQuestionMark;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "BOARD_ID")
     private Board board;
 
     public Cell() {}
@@ -81,6 +87,7 @@ public class Cell {
         this.hasQuestionMark = hasQuestionMark;
     }
 
+    @JsonIgnore
     public Board getBoard() {
         return board;
     }
