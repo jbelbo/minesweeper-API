@@ -1,9 +1,6 @@
 package com.minesweeper.restapi.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Board {
 
@@ -30,10 +27,6 @@ public class Board {
         this.numberOfMines = parameters.numberOfMines;
         this.createdAt = new Date();
         this.initializeBoard();
-    }
-
-    private void initializeBoard() {
-
     }
 
     public UUID getId() {
@@ -67,5 +60,38 @@ public class Board {
 
     public List<Cell> getCells() {
         return cells;
+    }
+
+    private void initializeBoard()
+    {
+        createCells();
+        setMines();
+        setSurroundingMinesNumber();
+    }
+
+    private void createCells() {
+        for (int column = 0; column < this.numberOfColumns; column++) {
+            for (int row = 0; row < this.numberOfRows; row++) {
+                this.cells.add(new Cell(column, row, false));
+            }
+        }
+    }
+
+    // ToDo improve mine setting so the returned collection is ordered
+    private void setMines() {
+        Collections.shuffle(this.cells);
+        this.cells.stream().limit(this.numberOfMines).forEach(cell -> cell.setHasMine(true));
+    }
+
+    private void setSurroundingMinesNumber() {
+        this.cells.stream()
+                .filter(cell-> !cell.getHasMine())
+                .forEach(cell -> cell.setNumberOfSurroundingMines(countSurroundingCells(cell)));
+
+    }
+
+    // ToDo avoid casting long to int or limit the size of the board
+    private int countSurroundingCells(Cell currentCell) {
+        return (int) cells.stream().filter(cell -> currentCell.isAdjacent(cell) && cell.getHasMine()).count();
     }
 }
