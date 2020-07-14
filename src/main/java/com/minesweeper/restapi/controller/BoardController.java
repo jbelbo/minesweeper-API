@@ -18,7 +18,7 @@ public class BoardController {
 
     @GetMapping("/boards/{boardId}")
     public Board getBoardById(@PathVariable UUID boardId) {
-        return new Board();
+        return boardService.getBoardById(boardId);
     }
 
     @PostMapping("/boards")
