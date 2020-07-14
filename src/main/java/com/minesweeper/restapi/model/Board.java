@@ -12,6 +12,8 @@ public class Board {
 
     private int numberOfMines;
 
+    private BoardStatus status;
+
     private Date createdAt;
 
     private Date finishedAt;
@@ -25,6 +27,7 @@ public class Board {
         this.numberOfRows = parameters.numberOfRows;
         this.numberOfColumns = parameters.numberOfColumns;
         this.numberOfMines = parameters.numberOfMines;
+        this.status = BoardStatus.PLAYING;
         this.createdAt = new Date();
         this.initializeBoard();
     }
@@ -37,13 +40,20 @@ public class Board {
         return numberOfRows;
     }
 
-
     public int getNumberOfColumns() {
         return numberOfColumns;
     }
 
     public int getNumberOfMines() {
         return numberOfMines;
+    }
+
+    public BoardStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(BoardStatus status) {
+        this.status = status;
     }
 
     public Date getCreatedAt() {
