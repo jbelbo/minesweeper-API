@@ -114,12 +114,12 @@ public class Board {
     private void setSurroundingMinesNumber() {
         this.cells.stream()
                 .filter(cell-> !cell.getHasMine())
-                .forEach(cell -> cell.setNumberOfSurroundingMines(countSurroundingCells(cell)));
+                .forEach(cell -> cell.setNumberOfSurroundingMines(countSurroundingMines(cell)));
 
     }
 
     // ToDo avoid casting long to int or limit the size of the board
-    private int countSurroundingCells(Cell currentCell) {
+    private int countSurroundingMines(Cell currentCell) {
         return (int) cells.stream().filter(cell -> currentCell.isAdjacent(cell) && cell.getHasMine()).count();
     }
 }
