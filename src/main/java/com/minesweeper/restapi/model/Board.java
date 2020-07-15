@@ -23,7 +23,7 @@ public class Board {
 
     private Date finishedAt;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cell> cells = new ArrayList<>();
 
     public Board() {}
@@ -76,6 +76,16 @@ public class Board {
 
     public List<Cell> getCells() {
         return cells;
+    }
+
+    public void addCell(Cell cell) {
+        this.cells.add(cell);
+        cell.setBoard(this);
+    }
+
+    public void removeCell(Cell cell) {
+        this.cells.remove(cell);
+        cell.setBoard(null);
     }
 
     private void initializeBoard()
