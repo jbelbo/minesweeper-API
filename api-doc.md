@@ -128,22 +128,30 @@ Response
 ```
 
 ## Update a cell
-To update a cell from a certain board you need to use the
-sub-resource URL: ``/api/boards/{boardId}/cells``
+To update a cell from a certain board you need to create an
+UpdateCellEvent using the following URL: ``/api/boards/{boardId}/cells``
 
-The available operations are:
-* Reveal cell
-* Add a flag to cell
-* Add a question mark to cell
+The event object consists of the following properties:
+```
+{
+  "cellId": <UUID cellId>,
+  "type": <UpdateCellEventType type>
+}
+```
 
-You need to send the whole cell object in the request body
-and edit the field you wish to change.
+The available types of events are:
+* Reveal cell (REVEAL)
+* Add a flag to cell (ADD_FLAG)
+* Add a question mark to cell (ADD_QUESTION_MARK)
 
-
-To reveal a cell you need change ``isHidden: true``  
-to ``isHidden: false``. The same works for adding a flag, 
-or a question mark. For those cases, update the ``hasFlag`` 
-or ``hasQuestionMark`` fields respectively.
+For example, to reveal a cell of id 296ae7ae-14a6-4048-8b0b-f79553a50e0c
+you need to send this object in the request body:
+```
+{
+  "cellId": "296ae7ae-14a6-4048-8b0b-f79553a50e0c",
+  "type": "REVEAL"
+}
+```
 
 The response will contain the whole Board with its current status.
 
@@ -151,18 +159,10 @@ The response will contain the whole Board with its current status.
 #### Example
 Request
 ```
-PUT /api/boards/40f1c0df-1608-473c-b25a-6098730bedca/cells/296ae7ae-14a6-4048-8b0b-f79553a50e0c
+POST /api/boards/40f1c0df-1608-473c-b25a-6098730bedca/events
 {
-    "id": "296ae7ae-14a6-4048-8b0b-f79553a50e0c",
-    "position": {
-        "x": 0.0,
-        "y": 0.0
-    },
-    "numberOfSurroundingMines": 2,
-    "hasMine": false,
-    "hasFlag": false,
-    "hasQuestionMark": false,
-    "idHidden": false
+  "cellId": "296ae7ae-14a6-4048-8b0b-f79553a50e0c",
+  "type": "ADD_FLAG"
 }
 ```
 
