@@ -155,29 +155,47 @@ public class Board {
                 .findFirst().orElseThrow();
     }
 
-    // ToDo reveal only hidden cells
-
-    private void revealAllCells() {
-        this.cells.forEach(cell -> cell.setHidden(false));
-    }
-
     private void uncoverCell(Cell cell) {
         if (cell.getHasMine()) {
-            this.setStatus(BoardStatus.LOST);
-            this.setFinishedAt(new Date());
-            revealAllCells();
+            markBoardAs(BoardStatus.LOST);
+            return;
         }
-
         if (!cell.getHidden()) {
             return;
         }
 
         cell.setHidden(false);
+        if (!areThereStillCellsToReveal()) {
+            markBoardAs(BoardStatus.WON);
+            return;
+        }
+
         if (0 == cell.getNumberOfSurroundingMines()) {
             List<Cell> neighborCells = getNeighborCells(cell);
             neighborCells.stream()
                     .filter(neighborCell -> 0 == neighborCell.getNumberOfSurroundingMines())
                     .forEach(this::uncoverCell);
         }
+    }
+
+    private void markBoardAs(BoardStatus status) {
+        this.setStatus(status);
+        if (status.equals(BoardStatus.WON) || status.equals(BoardStatus.LOST)) {
+            this.setFinishedAt(new Date());
+            revealAllCells();
+        }
+    }
+
+    // ToDo reveal only hidden cells
+    private void revealAllCells() {
+        this.cells.forEach(cell -> cell.setHidden(false));
+    }
+
+    private Boolean areThereStillCellsToReveal() {
+        long count = this.cells.stream()
+                .filter(cell -> cell.getHidden() && !cell.getHasMine())
+                .count();
+
+        return count != 0;
     }
 }
