@@ -98,16 +98,16 @@ public class Board {
     public void flagCell(UUID cellId) {
         var cell = getCellById(cellId);
 
-        if (!cell.getHasFlag()) {
-            cell.setHasFlag(true);
+        if (!cell.hasFlag()) {
+            cell.setFlag(true);
         }
     }
 
     public void addQuestionMarkToCell(UUID cellId) {
         var cell = getCellById(cellId);
 
-        if (!cell.getHasQuestionMark()) {
-            cell.setHasQuestionMark(true);
+        if (!cell.hasQuestionMark()) {
+            cell.setQuestionMark(true);
         }
     }
 
@@ -121,6 +121,7 @@ public class Board {
         setMines();
         setSurroundingMinesNumber();
     }
+
     private void createCells() {
         for (int column = 0; column < this.numberOfColumns; column++) {
             for (int row = 0; row < this.numberOfRows; row++) {
@@ -135,20 +136,20 @@ public class Board {
 
     private void setMines() {
         Collections.shuffle(this.cells);
-        this.cells.stream().limit(this.numberOfMines).forEach(cell -> cell.setHasMine(true));
+        this.cells.stream().limit(this.numberOfMines).forEach(cell -> cell.setMine(true));
     }
+
     private void setSurroundingMinesNumber() {
         this.cells.stream()
-                .filter(cell-> !cell.getHasMine())
+                .filter(cell-> !cell.hasMine())
                 .forEach(cell -> cell.setNumberOfSurroundingMines(countSurroundingMines(cell)));
-
     }
 
     // ToDo avoid casting long to int or limit the size of the board
-
     private int countSurroundingMines(Cell currentCell) {
-        return (int) cells.stream().filter(cell -> currentCell.isAdjacent(cell) && cell.getHasMine()).count();
+        return (int) cells.stream().filter(cell -> currentCell.isAdjacent(cell) && cell.hasMine()).count();
     }
+
     private Cell getCellById(UUID cellId) {
         return this.getCells().stream()
                 .filter(cell -> cell.getId().equals(cellId))
@@ -156,11 +157,11 @@ public class Board {
     }
 
     private void uncoverCell(Cell cell) {
-        if (cell.getHasMine()) {
+        if (cell.hasMine()) {
             markBoardAs(BoardStatus.LOST);
             return;
         }
-        if (!cell.getHidden()) {
+        if (!cell.isHidden()) {
             return;
         }
 
@@ -193,7 +194,7 @@ public class Board {
 
     private Boolean areThereStillCellsToReveal() {
         long count = this.cells.stream()
-                .filter(cell -> cell.getHidden() && !cell.getHasMine())
+                .filter(cell -> cell.isHidden() && !cell.hasMine())
                 .count();
 
         return count != 0;

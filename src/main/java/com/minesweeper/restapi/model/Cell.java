@@ -1,5 +1,6 @@
 package com.minesweeper.restapi.model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -55,7 +56,8 @@ public class Cell {
         this.numberOfSurroundingMines = numberOfSurroundingMines;
     }
 
-    public Boolean getHidden() {
+    @JsonGetter("isHidden")
+    public Boolean isHidden() {
         return isHidden;
     }
 
@@ -63,27 +65,29 @@ public class Cell {
         isHidden = hidden;
     }
 
-    public Boolean getHasMine() {
+    public Boolean hasMine() {
         return hasMine;
     }
 
-    public void setHasMine(Boolean hasMine) {
+    public void setMine(Boolean hasMine) {
         this.hasMine = hasMine;
     }
 
-    public Boolean getHasFlag() {
+    @JsonGetter
+    public Boolean hasFlag() {
         return hasFlag;
     }
 
-    public void setHasFlag(Boolean hasFlag) {
+    public void setFlag(Boolean hasFlag) {
         this.hasFlag = hasFlag;
     }
 
-    public Boolean getHasQuestionMark() {
+    @JsonGetter
+    public Boolean hasQuestionMark() {
         return hasQuestionMark;
     }
 
-    public void setHasQuestionMark(Boolean hasQuestionMark) {
+    public void setQuestionMark(Boolean hasQuestionMark) {
         this.hasQuestionMark = hasQuestionMark;
     }
 
