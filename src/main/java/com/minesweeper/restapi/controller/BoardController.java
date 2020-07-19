@@ -7,6 +7,8 @@ import com.minesweeper.restapi.model.UpdateCellParameters;
 import com.minesweeper.restapi.service.BoardService;
 import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.InvalidParameterException;
@@ -26,6 +28,7 @@ public class BoardController {
     }
 
     @PostMapping("/boards")
+    @ResponseStatus(HttpStatus.CREATED)
     public Board createBoard(@RequestBody BoardParameters boardParameters) {
         return boardService.createBoard(boardParameters);
     }
