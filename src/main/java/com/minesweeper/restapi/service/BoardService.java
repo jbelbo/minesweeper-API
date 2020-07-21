@@ -3,6 +3,7 @@ package com.minesweeper.restapi.service;
 import com.minesweeper.restapi.event.UpdateCellEvent;
 import com.minesweeper.restapi.model.Board;
 import com.minesweeper.restapi.model.BoardParameters;
+import com.minesweeper.restapi.model.BoardStatus;
 import com.minesweeper.restapi.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,11 +27,16 @@ public class BoardService {
 
     public Board applyUpdateCellEvent(UpdateCellEvent event) {
         var board = getByIdOrThrowNotFound(event.getBoardId());
-        // ToDo check board status before applying any event
-        event.apply(board);
-        boardRepository.save(board);
+        if (BoardStatus.LOST != board.getStatus()) {
+            event.apply(board);
+            boardRepository.save(board);
+        }
 
         return board;
+    }
+
+    public Iterable<Board> getFilteredList(String username) {
+        return !(null == username) ? boardRepository.findByUsername(username) : boardRepository.findAll();
     }
 
     // ToDo create custom method in repository
