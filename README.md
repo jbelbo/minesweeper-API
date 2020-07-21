@@ -1,5 +1,11 @@
 ## Minesweeper API 
 
+### Host
+The application has been deployed using Heroku and the host is ``https://minesweeper-api-mjs.herokuapp.com/``
+
+A Postman collection and environment can be found in the root of the project (postman-collection.zip)
+
+
 ### Notes
 * You can find the API documentation here: [API DOCUMENTATION](api-doc.md)
 
