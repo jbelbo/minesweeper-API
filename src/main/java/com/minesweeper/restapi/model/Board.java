@@ -20,6 +20,8 @@ public class Board {
 
     private BoardStatus status;
 
+    private String username;
+
     private Date createdAt;
 
     private Date finishedAt;
@@ -35,6 +37,7 @@ public class Board {
         this.numberOfColumns = parameters.numberOfColumns;
         this.numberOfMines = parameters.numberOfMines;
         this.status = BoardStatus.PLAYING;
+        this.username = parameters.username;
         this.createdAt = new Date();
         this.initializeBoard();
     }
@@ -61,6 +64,14 @@ public class Board {
 
     public void setStatus(BoardStatus status) {
         this.status = status;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Date getCreatedAt() {
