@@ -8,9 +8,12 @@ public class BoardParameters {
 
     public int numberOfMines;
 
-    public BoardParameters(int numberOfColumns, int numberOfRows, int numberOfMines) {
+    public String username;
+
+    public BoardParameters(int numberOfColumns, int numberOfRows, int numberOfMines, String username) {
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
         this.numberOfMines = numberOfMines;
+        this.username = username;
     }
 }
