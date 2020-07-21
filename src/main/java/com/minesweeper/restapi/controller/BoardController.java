@@ -5,16 +5,12 @@ import com.minesweeper.restapi.model.Board;
 import com.minesweeper.restapi.model.BoardParameters;
 import com.minesweeper.restapi.model.UpdateCellParameters;
 import com.minesweeper.restapi.service.BoardService;
-import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.InvalidParameterException;
 import java.util.UUID;
 
-// ToDo implement methods using persistence or in-memory list
 @RestController
 @RequestMapping(value = "/api", produces = "application/json")
 public class BoardController {
@@ -22,15 +18,20 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
-    @GetMapping("/boards/{boardId}")
-    public Board getBoardById(@PathVariable UUID boardId) {
-        return boardService.getBoardById(boardId);
+    @GetMapping("/boards")
+    public Iterable<Board> getBoards(@RequestParam(required = false) String username) {
+        return boardService.getFilteredList(username);
     }
 
     @PostMapping("/boards")
     @ResponseStatus(HttpStatus.CREATED)
     public Board createBoard(@RequestBody BoardParameters boardParameters) {
         return boardService.createBoard(boardParameters);
+    }
+
+    @GetMapping("/boards/{boardId}")
+    public Board getBoardById(@PathVariable UUID boardId) {
+        return boardService.getBoardById(boardId);
     }
 
     @PostMapping("/boards/{boardId}/events")
