@@ -63,10 +63,10 @@ public class BoardTests {
 
     private static Stream<Arguments> provideParametersForBoardCreation() {
         return Stream.of(
-                Arguments.of(new BoardParameters(8,8, 15)),
-                Arguments.of(new BoardParameters(4,3, 2)),
-                Arguments.of(new BoardParameters(1,1,1)),
-                Arguments.of(new BoardParameters(10,20,30))
+                Arguments.of(new BoardParameters(8,8, 15, "User")),
+                Arguments.of(new BoardParameters(4,3, 2, "User")),
+                Arguments.of(new BoardParameters(1,1,1, "User")),
+                Arguments.of(new BoardParameters(10,20,30, "User"))
         );
     }
 }
