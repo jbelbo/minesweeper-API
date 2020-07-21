@@ -1,9 +1,23 @@
 ## Minesweeper API 
 
-### Host
-The application has been deployed using Heroku and the host is ``https://minesweeper-api-mjs.herokuapp.com/``
+### Instructions
+To play, create a new board and then create events for that board.
+For example, if you want to reveal a cell, create a REVEAL event
+following the API documentation.
 
-A Postman collection and environment can be found in the root of the project (postman-collection.zip)
+In case you win (or lose), the status of the board will change 
+to indicate that.
+
+If you wish to resume an older game you can get the ID using the
+list of boards (that can be filtered by username) and start creating
+events on that board.
+
+A Postman collection and environment can be found in the root of 
+the project under filename postman-collection.zip.
+
+### Host
+The application has been deployed using Heroku and the host is
+``https://minesweeper-api-mjs.herokuapp.com/``
 
 
 ### Notes
